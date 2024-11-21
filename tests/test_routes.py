@@ -178,3 +178,36 @@ class TestProductRoutes(TestCase):
         data = response.get_json()
         # logging.debug("data = %s", data)
         return len(data)
+
+    def test_get_product(self):
+        """Read a Product """
+        test_product = self._create_products(1)[0]
+        response = self.client.get(f"{BASE_URL}/{test_product.id}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(data["name"], test_product.name)
+
+
+    def Update_a_Product(self):
+        """Update a Product """
+        pass
+
+    def Delete_a_Product(self):
+        """Delete a Product """
+        pass
+
+    def List_all_Products(self):
+        """List all Products """
+        pass
+
+    def List_by_name_a_Product(self):
+        """List by name a Product """
+        pass
+
+    def List_by_category_a_Product(self):
+        """List by category a Product """
+        pass
+
+    def List_by_availability_a_Product(self):
+        """List by availability a Product """
+        pass
