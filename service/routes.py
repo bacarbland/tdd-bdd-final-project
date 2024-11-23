@@ -23,6 +23,7 @@ from flask import url_for  # noqa: F401 pylint: disable=unused-import
 from service.models import Product
 from service.common import status  # HTTP Status Codes
 from . import app
+import logging
 
 
 ######################################################################
@@ -75,6 +76,7 @@ def create_products():
     This endpoint will create a Product based the data in the body that is posted
     """
     app.logger.info("Request to Create a Product...")
+    logging.debug("Create object")
     check_content_type("application/json")
 
     data = request.get_json()
@@ -106,9 +108,15 @@ def create_products():
 # R E A D   A   P R O D U C T
 ######################################################################
 
-#
-# PLACE YOUR CODE HERE TO READ A PRODUCT
-#
+@app.route("/products/<int:product_id>", methods=["GET"])
+def get_products(product_id):
+    """ Return a single Product given an ID """
+    product = Product.find(product_id)
+    if not product:
+        abort(status.HTTP_404_NOT_FOUND, f"There is no product with ID '{product_id}'.")
+    dict_product = product.serialize()
+    return dict_product, status.HTTP_200_OK
+
 
 ######################################################################
 # U P D A T E   A   P R O D U C T
