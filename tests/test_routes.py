@@ -230,7 +230,6 @@ class TestProductRoutes(TestCase):
         data = response.get_json()
         self.assertEqual(len(data), 5)
         
-
     def test_list_by_name(self):
         """List the products with the same name"""
         products = self._create_products(10)
@@ -247,13 +246,35 @@ class TestProductRoutes(TestCase):
             self.assertEqual(product["name"], test_name)
         
 
-    def List_by_category_a_Product(self):
-        """List by category a Product """
-        pass
+    def test_list_by_category(self):
+        """List products filtering by category"""
+        products = self._create_products(10)
+        category = products[0].category
+        count = 0
+        for product in products:
+            if product.category == category:
+                count += 1
+        logging.debug('%s products found with category %s', count, category)
+        response = self.client.get(BASE_URL, query_string=f"category={quote_plus(category.name)}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), count)
+        for product in data:
+            self.assertEqual(product["category"], category.name)
 
-    def List_by_availability_a_Product(self):
-        """List by availability a Product """
-        pass
+    def test_list_by_availability(self):
+        """List products filtering by availability"""
+        products = self._create_products(10)
+        count = 0
+        for product in products:
+            if product.available == True:
+                count += 1
+        response = self.client.get(BASE_URL, query_string=f"available=true")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), count)
+        for product in data:
+            self.assertEqual(product["available"], True)
 
     ######################################################################
     # Utility functions
