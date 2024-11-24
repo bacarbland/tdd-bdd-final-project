@@ -142,7 +142,7 @@ def step_impl(context, element_name, text_string):
 @when(u'I press the "{button}" button')
 def step_impl(context, button):
     buttonID = button.lower() + '-btn'
-    buttonElement = context.driver.find_element(buttonID)
+    buttonElement = context.driver.find_element_by_id(buttonID)
     buttonElement.click()
 
 @then(u'I should see the message "{message}"')
@@ -166,4 +166,4 @@ def step_impl(context, text):
 @then(u'I should not see "{text}" in the results')
 def step_impl(context, text):
     element = context.driver.find_element_by_id('search_results')
-    assert(name not in element.text)
+    assert(text not in element.text)

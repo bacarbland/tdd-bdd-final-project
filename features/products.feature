@@ -61,7 +61,7 @@ Scenario: Update a Product
     And I press the "Search" button
     Then I should see the message "Success"
     And I should see "A red fedora" in the "Description" field 
-    When I change the "Description" to "Like the one on the mask"
+    When I change "Description" to "Like the one on the mask"
     And I press the "Update" button
     Then I should see the message "Success"
     When I copy the "Id" field
@@ -130,5 +130,5 @@ Scenario: Search by Name
     And I set the "Name" to "Hat"
     And I press the "Search" button
     Then I should see the message "Success"
-    And I should see "Hat" in the results
-    And I should see "A red Fedora" in the results
+    And I should see "Hat" in the "Name" field
+    And I should see "A red fedora" in the "Description" field
