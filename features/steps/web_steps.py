@@ -133,97 +133,37 @@ def step_impl(context, element_name, text_string):
     element.clear()
     element.send_keys(text_string)
 
+##################################################################
 
-@when(u'I press the "Create" button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I press the "Create" button')
+## MY CODE ##
 
+##################################################################
 
-@then(u'I should see the message "Success"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see the message "Success"')
+@when(u'I press the "{button}" button')
+def step_impl(context, button):
+    buttonID = button.lower() + '-btn'
+    buttonElement = context.driver.find_element(buttonID)
+    buttonElement.click()
 
+@then(u'I should see the message "{message}"')
+def step_impl(context, message):
+    found = WebDriverWait(context.driver, context.wait_seconds).until(
+        expected_conditions.text_to_be_present_in_element(
+            (By.ID, 'flash_message'), message
+            )
+    )
+    assert(found)
 
-@when(u'I press the "Clear" button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I press the "Clear" button')
+@then(u'I should see "{text}" in the results')
+def step_impl(context, text):
+    found = WebDriverWait(context.driver, context.wait_seconds).until(
+        expected_conditions.text_to_be_present_in_element(
+            (By.ID, 'search_results'), text
+            )
+    )
+    assert(found)
 
-
-@when(u'I press the "Retrieve" button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I press the "Retrieve" button')
-
-
-@when(u'I press the "Search" button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I press the "Search" button')
-
-
-@when(u'I change the "Description" to "Like the one on the mask"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I change the "Description" to "Like the one on the mask"')
-
-
-@when(u'I press the "Update" button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I press the "Update" button')
-
-
-@then(u'I should see "Like the one on the mask" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see "Like the one on the mask" in the results')
-
-
-@then(u'I should not see "A red fedora" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should not see "A red fedora" in the results')
-
-
-@when(u'I press the "Delete" button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I press the "Delete" button')
-
-
-@then(u'I should see the message "Product has been Deleted!"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see the message "Product has been Deleted!"')
-
-
-@then(u'I should not see "Hat" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should not see "Hat" in the results')
-
-
-@then(u'I should see "Hat" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see "Hat" in the results')
-
-
-@then(u'I should see "Shoes" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see "Shoes" in the results')
-
-
-@then(u'I should see "Big Mac" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see "Big Mac" in the results')
-
-
-@then(u'I should see "Sheets" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see "Sheets" in the results')
-
-
-@then(u'I should not see "Shoes" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should not see "Shoes" in the results')
-
-
-@then(u'I should not see "Sheets" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should not see "Sheets" in the results')
-
-
-@then(u'I should see "A red Fedora" in the results')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should see "A red Fedora" in the results')
+@then(u'I should not see "{text}" in the results')
+def step_impl(context, text):
+    element = context.driver.find_element_by_id('search_results')
+    assert(name not in element.text)
